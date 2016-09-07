@@ -2,7 +2,17 @@ package main
 // `for` is Go's only looping construct. Here are
 // three basic types of `for` loops.
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
+
+func pow(x, n, lim float64) float64 {
+	if v := math.Pow(x, n); v < lim {
+		return v
+	}
+	return lim
+}
 
 func main() {
 
@@ -25,4 +35,9 @@ func main() {
 		fmt.Println("loop")
 		break
 	}
+
+	fmt.Println(
+		pow(3, 2, 10),
+		pow(3, 3, 20),
+	)
 }
