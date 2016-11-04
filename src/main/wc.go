@@ -9,10 +9,12 @@ import "container/list"
 // key to the Map function, as in the paper; only a value,
 // which is a part of the input file contents
 func Map(value string) *list.List {
+  return nil
 }
 
 // iterate over list and add values
 func Reduce(key string, values *list.List) string {
+  return ""
 }
 
 // Can be run in 3 ways:
