@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 )
+
 func main() {
 	var a [2]string
 	a[0] = "Hello"
@@ -37,4 +38,12 @@ func main() {
 
 	str := []string{"this", "is", "a", "joined", "string\n"};
 	fmt.Printf(strings.Join(str, " "));
+	//4.1.2 Multi-dimensional arrays
+	var multiArray [2][3]string
+	for i := 0; i < 2; i++ {
+		for j := 0; j < 3; j++ {
+			multiArray[i][j] = fmt.Sprintf("row %d - column %d", i + 1, j + 1)
+		}
+	}
+	fmt.Printf("%q", multiArray)
 }
