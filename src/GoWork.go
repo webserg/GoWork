@@ -8,7 +8,7 @@ func main() {
 	fmt.Println(len("Hello World"))
 	fmt.Println("Hello World"[1])
 	fmt.Println("Hello " + "World")
-	var y string = "Hello World"
+	var y = "Hello World"
 	fmt.Println(y)
 	y = "hello second"
 	fmt.Println(y)

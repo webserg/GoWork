@@ -8,6 +8,13 @@ type Vertex struct {
 	Z string
 }
 
+var (
+	v1 = Vertex{1, 2, "some"}  // has type Vertex
+	v2 = Vertex{X: 1}  // Y:0 is implicit
+	v3 = Vertex{}      // X:0 and Y:0
+	p  = &Vertex{1, 2,"some"} // has type *Vertex
+)
+
 func main() {
 	i, j := 42, 2701
 
@@ -20,5 +27,15 @@ func main() {
 	*p = *p / 37   // divide j through the pointer
 	fmt.Println(j) // see the new value of j
 
-	fmt.Println(Vertex{1, 2, "hello"})
+	v := Vertex{1, 2, "hello"}
+	fmt.Println(v)
+
+	v.X = 4
+	fmt.Println(v)
+
+	pp := &v//To access the field X of a struct when we have the struct pointer p 
+	pp.X = 1e9
+	fmt.Println(v)
+
+	fmt.Println(v1, p, v2, v3)
 }
