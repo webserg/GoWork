@@ -1,4 +1,4 @@
-package webserg_gmail_com
+package main
 // `for` is Go's only looping construct. Here are
 // three basic types of `for` loops.
 

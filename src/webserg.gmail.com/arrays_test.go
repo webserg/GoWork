@@ -3,9 +3,15 @@ package webserg_gmail_com
 import (
 	"fmt"
 	"strings"
+	"testing"
 )
 
-func main() {
+
+func TestArray(t *testing.T) {
+	run()
+}
+
+func run() {
 	var a [2]string
 	a[0] = "Hello"
 	a[1] = "World"

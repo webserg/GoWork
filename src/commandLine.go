@@ -1,4 +1,4 @@
-package webserg_gmail_com
+package main
 import (
 "flag"
 "fmt"

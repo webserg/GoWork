@@ -1,5 +1,5 @@
 // Fetchall fetches URLs in parallel and reports their times and sizes.
-package webserg_gmail_com
+package main
 
 import (
 	"fmt"

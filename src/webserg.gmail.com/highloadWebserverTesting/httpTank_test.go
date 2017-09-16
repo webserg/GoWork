@@ -7,9 +7,14 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
+	"testing"
 )
 
-func main() {
+func TestArray(t *testing.T) {
+	run()
+}
+
+func run() {
 	start := time.Now()
 	ch := make(chan string)
 	url := "http://localhost/users/"

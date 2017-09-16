@@ -1,4 +1,4 @@
-package webserg_gmail_com
+package main
 /*
 8 9
 1 4
