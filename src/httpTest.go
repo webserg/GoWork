@@ -24,4 +24,9 @@ func main() {
 	fmt.Println(resp.Header.Get("Content-Type"))
 	fmt.Println(string(body))
 
+	resp2, _ := http.Get("http://example.com/")
+	body2, _ := ioutil.ReadAll(resp2.Body)
+	fmt.Println(string(body2))
+	resp2.Body.Close()
+
 }
