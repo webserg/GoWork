@@ -27,8 +27,10 @@ import (
 )
 
 //!+main
-
-var palette = []color.Color{color.White, color.Black}
+var (
+	GREEN  = color.RGBA{85, 165, 34, 255}
+)
+var palette = []color.Color{GREEN, color.Black}
 
 const (
 	whiteIndex = 0 // first color in palette
