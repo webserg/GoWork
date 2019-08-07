@@ -2,6 +2,8 @@
 package highloadWebserverTesting
 
 import (
+	"os"
+	"encoding/json"
 	"bytes"
 	"fmt"
 	"io"
@@ -15,15 +17,19 @@ func TestArray(t *testing.T) {
 	runTestAddNewUser()
 }
 
+func TestGetUsers(t *testing.T) {
+	run()
+}
+
 func run() {
 	start := time.Now()
 	ch := make(chan string)
 	url := "http://localhost/users/"
-	for j := 1; j <= 1001; j++ {
+	for j := 1; j <= 3000; j++ {
 		url := fmt.Sprintf("%s%d", url, j)
 		go getUser(url, ch) // start a goroutine
 	}
-	for j := 1; j <= 1001; j++ {
+	for j := 1; j <= 10010; j++ {
 		fmt.Println(<-ch) // receive from channel ch
 	}
 	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
@@ -35,7 +41,8 @@ func runTestAddNewUser() {
 	ch := make(chan string)
 	url := "http://localhost/users/new"
 	go addUser(url, ch)                             // start a goroutin
-	fmt.Println(<-ch)                               // receive from channel ch
+	fmt.Println(<-ch) 
+	sendPostNewUser()                              // receive from channel ch
 	go getUser("http://localhost/users/100200", ch) // start a goroutine
 	fmt.Println(<-ch)
 	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
@@ -66,7 +73,6 @@ func getUser(url string, ch chan<- string) {
 }
 
 func addUser(url string, ch chan<- string) {
-	start := time.Now()
 	var jsonStr = []byte(`{
         "id": 100200,
         "email": "foobar@mail.ru",
@@ -75,26 +81,51 @@ func addUser(url string, ch chan<- string) {
         "gender": "f",
         "birth_date": 365299200
     }`)
-	resp, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Charset", "utf-8")
 	if err != nil {
 		ch <- fmt.Sprint(err) // send to channel ch
 		return
 	}
 
-	nbytes, err := io.Copy(ioutil.Discard, resp.Body)
-	resp.Body.Close() // don't leak resources
-	if err != nil {
-		ch <- fmt.Sprintf("while reading %s: %v", url, err)
-		return
-	}
+	client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
 
-	// if resp.Response.StatusCode != 200 {
-	// 	ch <- fmt.Sprintf("while reading %s: %d", url, resp.Response.StatusCode)
-	// 	return
-	// }
-	secs := time.Since(start).Seconds()
-	ch <- fmt.Sprintf("%.2fs  %7d  %s", secs, nbytes, url)
+    fmt.Println("response Status:", resp.Status)
+    fmt.Println("response Headers:", resp.Header)
+    body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
+	ch <- string(body)
 	return
+}
+
+type User struct{
+	id      uint64
+	email      string
+	first_name      string
+	last_name      string
+	gender      string
+    birth_date uint64
+}
+
+func sendPostNewUser(){
+	
+
+	u := User{id: 100200,
+		email: "foobar@mail.ru",
+		first_name: "Маша",
+		last_name: "Пушкина",
+		gender: "f",
+		birth_date: 365299200}
+    b := new(bytes.Buffer)
+    json.NewEncoder(b).Encode(u)
+    res, _ := http.Post("http://localhost/users/new", "application/json; charset=utf-8", b)
+    io.Copy(os.Stdout, res.Body)
 }
 
 //!-

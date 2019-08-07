@@ -7,6 +7,7 @@ import (
 	"unicode"
 	"strings"
 	"strconv"
+	"math/rand" 
 )
 
 func main() {
@@ -30,4 +31,13 @@ func main() {
 		counter++
 	}
 	fmt.Printf(strconv.Itoa(counter))
+	fmt.Println("hfghf ")
+	array := make([]byte, 10)
+    rand.Read(array)
+    fmt.Println(array)
+
+	for i := 1; i < len(array); i += 4 {
+    	v := array[i]	
+    	fmt.Println(v)
+	}
 }
